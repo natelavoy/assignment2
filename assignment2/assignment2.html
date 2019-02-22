@@ -1,0 +1,676 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ELEC 4700 Assignment 2</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-22"><meta name="DC.source" content="assignment2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ELEC 4700 Assignment 2</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Nathan Lavoy</a></li><li><a href="#2">100995612</a></li><li><a href="#3">Submitted: Feb. 22, 2019</a></li><li><a href="#4">Part One: Electrostatic Potential with Vo Fixed at Each End</a></li><li><a href="#6">Part One Conclusion</a></li><li><a href="#7">Part Two A: Current Flow</a></li><li><a href="#8">Part Two B: Mesh Density</a></li><li><a href="#9">Part Two C: Narrowing Bottle Neck</a></li><li><a href="#10">Part Two D: Resistivity in Bottle Neck</a></li><li><a href="#11">Additional Functions Used</a></li><li><a href="#12">Part Two Conclusion</a></li></ul></div><h2 id="1">Nathan Lavoy</h2><h2 id="2">100995612</h2><h2 id="3">Submitted: Feb. 22, 2019</h2><h2 id="4">Part One: Electrostatic Potential with Vo Fixed at Each End</h2><pre class="codeinput"><span class="comment">% Simulation parameters</span>
+clear; clc;
+L = 30;    <span class="comment">% Length</span>
+W = 20;      <span class="comment">% Width</span>
+Vo = 5;     <span class="comment">% Fixed potential source</span>
+
+<span class="comment">% using GV = F as the matrix solution</span>
+G = zeros(L*W);
+F = zeros(1,L*W);
+<span class="keyword">for</span> i = 1:L
+    <span class="keyword">for</span> j = 1:W
+        N = j + (i-1)*W;
+        Nxm = j + (i-2)*W;
+        Nxp = j + i*W;
+        Nym = j-1 + (i-1)*W;
+        Nyp = j+1 + (i-1)*W;
+        <span class="keyword">if</span> i == 1
+            G(N,N) = 1;
+            F(N)=Vo;
+        <span class="keyword">elseif</span> i == L
+            G(N,N) = 1;
+            F(N) = Vo;
+        <span class="keyword">elseif</span> j == 1
+            G(N,N) = 1;
+        <span class="keyword">elseif</span> j == W
+            G(N,N) = 1;
+        <span class="keyword">else</span>
+            G(N,N)=-4;
+            G(N,Nxm)=1;
+            G(N,Nxp)=1;
+            G(N,Nym)=1;
+            G(N,Nyp)=1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="comment">% Convert to sparse after allocating locations to improve efficiency</span>
+G = sparse(G);
+F = sparse(F);
+Vsol = G\F';
+
+<span class="comment">% Reformat</span>
+Vmap = zeros(W,L);
+<span class="keyword">for</span> j = 1:W
+    <span class="keyword">for</span> i = 1:L
+        n = j + (i - 1) * W;
+        Vmap(j, i) = Vsol(n);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+figure(2)
+surf(Vmap)
+title(<span class="string">' Voltage Map for Numerical Solution'</span>)
+view(10,45)
+</pre><img vspace="5" hspace="5" src="assignment2_01.png" alt=""> <p>Numeric solution to laplace equation</p><pre class="codeinput">V = zeros(L,W);
+V(L,:) = Vo;
+V(1,:) = Vo;
+[X,Y] = meshgrid(1:W,1:L);  <span class="comment">% Mesh grid for plotting</span>
+<span class="keyword">for</span> x= (-L/2+1):L/2
+    <span class="keyword">for</span> y=1:W
+        <span class="keyword">if</span> (x == (-L/2+1) || x == (L/2))
+            V(x+L/2,y) = Vo;
+        <span class="keyword">elseif</span> (y == 1 || y == W)
+            V(x+L/2,y) = 0;
+        <span class="keyword">else</span>
+            <span class="keyword">for</span> N=1:2:251
+                V(x+L/2,y) = V(x+L/2,y) + 4*Vo/pi*1/N*cosh(N*pi*x/W)/cosh(N*pi*0.5*L/W)*sin(N*pi*y/W);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+figure(2)
+title(<span class="string">'part1(b)'</span>);
+surf(X,Y,V);
+xlabel(<span class="string">'X'</span>);
+ylabel(<span class="string">'Y'</span>);
+</pre><img vspace="5" hspace="5" src="assignment2_02.png" alt=""> <h2 id="6">Part One Conclusion</h2><p>The solution found in the meshing method is very similar to the solution developed in the analytical analysis. The problem with the analytic solution is that it requires a infinite sumation. I set n to 250 steps to get a clear value. This method slower than the meshing method (due to Matlab's sparse techniques) but can reproduce a more accurate result.</p><h2 id="7">Part Two A: Current Flow</h2><p>Simulation parameters</p><pre class="codeinput">clear; clc;
+L = 30;                     <span class="comment">% Length</span>
+W = 20;                     <span class="comment">% Width</span>
+[X,Y] = meshgrid(1:L,1:W);  <span class="comment">% Mesh grid for plotting</span>
+Vo = 5;                     <span class="comment">% Fixed potential source</span>
+G = zeros(L*W,L*W);         <span class="comment">% G matrix</span>
+F = zeros(L*W,1);           <span class="comment">% F matrix</span>
+sigma1 = 1;                 <span class="comment">% Sigma value 1</span>
+sigma2 = 1e-2;              <span class="comment">% Sigma value 2</span>
+
+<span class="comment">% Solve Simulation</span>
+[S,V,J] = solveG(L,W,0.4,0.6,0.4,0.6,sigma1,sigma2,Vo);
+
+<span class="comment">% plot for sigma</span>
+figure(3)
+surf(S);
+title(<span class="string">'Resistive Surface Plot'</span>);
+
+<span class="comment">% plot for voltage</span>
+figure(4);
+surf(X,Y,V);
+title(<span class="string">'Surface Plot for Voltage'</span>);
+
+<span class="comment">% Electric fields plots</span>
+[Ex, Ey] = gradient(V);
+Ex = -Ex;
+Ey = -Ey;
+
+figure(5);
+surf(Ex);
+title(<span class="string">'Surface Plot of X-Component Electric Field'</span>);
+
+figure(6);
+surf(Ey);
+title(<span class="string">'Surface Plot of Y-Component Electric Field'</span>);
+
+figure (7)
+quiver(X,Y,Ex, Ey);
+title(<span class="string">'Electric Field Vector Plot'</span>);
+
+<span class="comment">% Current Densities</span>
+Jx = S.*Ex;
+Jy = S.*Ey;
+
+figure(8)
+surf(J)
+title(<span class="string">'Surface Plot of Current Density'</span>);
+
+figure(9)
+quiver(X,Y,Jx, Jy);
+title(<span class="string">'Vector Plot of Current Density'</span>);
+</pre><img vspace="5" hspace="5" src="assignment2_03.png" alt=""> <img vspace="5" hspace="5" src="assignment2_04.png" alt=""> <img vspace="5" hspace="5" src="assignment2_05.png" alt=""> <img vspace="5" hspace="5" src="assignment2_06.png" alt=""> <img vspace="5" hspace="5" src="assignment2_07.png" alt=""> <img vspace="5" hspace="5" src="assignment2_08.png" alt=""> <img vspace="5" hspace="5" src="assignment2_09.png" alt=""> <h2 id="8">Part Two B: Mesh Density</h2><p>Simulation parameters</p><pre class="codeinput">clear; clc;
+Vo = 5;         <span class="comment">% Fixed potential source</span>
+sigma1 = 1;     <span class="comment">% Sigma value 1</span>
+sigma2 = 1e-2;  <span class="comment">% Sigma value 2</span>
+n = 1;          <span class="comment">% Iteration</span>
+<span class="comment">% Solve system using increasing mesh sizes</span>
+<span class="keyword">for</span> i=20:10:100
+    [S,V,J] = solveG((3/2)*i,i,0.4,0.6,0.4,0.6,sigma1,sigma2,Vo);
+    C_columns = sum(J, 1);
+    C(n) = sum(C_columns);  <span class="comment">% Current at size</span>
+    ms(n) = i;              <span class="comment">% Mesh Size</span>
+    n = n+1;                <span class="comment">% Iterate</span>
+<span class="keyword">end</span>
+<span class="comment">% Plot total current vs mesh size</span>
+figure(10)
+plot(ms,C);
+title(<span class="string">'Current vs. Mesh Size'</span>);
+</pre><img vspace="5" hspace="5" src="assignment2_10.png" alt=""> <h2 id="9">Part Two C: Narrowing Bottle Neck</h2><p>Simulation parameters</p><pre class="codeinput">clear; clc;
+L = 30;                     <span class="comment">% Length</span>
+W = 20;                     <span class="comment">% Width</span>
+Vo = 5;                     <span class="comment">% Fixed potential source</span>
+sigma1 = 1;                 <span class="comment">% Sigma value 1</span>
+sigma2 = 1e-2;              <span class="comment">% Sigma value 2</span>
+n = 1;
+<span class="keyword">for</span> i=0.1:0.01:0.9
+    Lower = 0.5-(i/2);
+    Upper = 0.5+(i/2);
+    [S,V,J] = solveG(L,W,0.4,0.6,Lower,Upper,sigma1,sigma2,Vo);
+    C_columns = sum(J, 1);  <span class="comment">% sum of current density is current</span>
+    C(n) = sum(C_columns);  <span class="comment">% need to get a scalar</span>
+    Gap(n) = i;
+    n = n+1;
+<span class="keyword">end</span>
+
+figure(11)
+plot(Gap,C);
+title(<span class="string">'Current vs. Bottle Neck'</span>)
+</pre><img vspace="5" hspace="5" src="assignment2_11.png" alt=""> <h2 id="10">Part Two D: Resistivity in Bottle Neck</h2><p>Simulation parameters</p><pre class="codeinput">clear; clc;
+L = 30;                     <span class="comment">% Length</span>
+W = 20;                     <span class="comment">% Width</span>
+Vo = 5;                     <span class="comment">% Fixed potential source</span>
+sigma1 = 1;                 <span class="comment">% Sigma value 1</span>
+sigma2 = 1e-2;              <span class="comment">% Sigma value 2</span>
+n = 1;
+<span class="keyword">for</span> i=sigma2:0.01:1
+    [S,V,J] = solveG(L,W,0.4,0.6,0.4,0.6,sigma1,i,Vo);
+    C_columns = sum(J, 1);  <span class="comment">% sum of current density is current</span>
+    C(n) = sum(C_columns);  <span class="comment">% need to get a scalar</span>
+    rs(n) = i;
+    n = n+1;
+<span class="keyword">end</span>
+figure(12)
+plot(rs,C);
+title(<span class="string">'Current vs. sigma'</span>)
+</pre><h2 id="11">Additional Functions Used</h2><pre class="codeinput"><span class="keyword">function</span> [S,V,J] = solveG(L,W,Lb1,Lb2,Wb1,Wb2,sigma1,sigma2,Vo)
+    G = zeros(L*W); <span class="comment">% G matrix</span>
+    F = zeros(1,L*W);   <span class="comment">% F matrix</span>
+    S = zeros(W,L);    <span class="comment">% Mapped sigmas</span>
+    <span class="comment">% Fill a 2D array for the sigma surface plot</span>
+    <span class="keyword">for</span> x = 1:L
+        <span class="keyword">for</span> y = 1:W
+            <span class="keyword">if</span> x &gt;= Lb1*L &amp;&amp; x &lt;= Lb2*L &amp;&amp; (y &lt;= Wb1*W || y &gt;= Wb2*W)
+                S(y,x) = sigma2;
+            <span class="keyword">else</span>
+                S(y,x) = sigma1;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">for</span> i = 1:L
+        <span class="keyword">for</span> j = 1:W
+            N = j + (i-1)*W;
+            Nxm = j + (i-2)*W;
+            Nxp = j + i*W;
+            Nym = j-1+(i-1)*W;
+            Nyp = j+1+(i-1)*W;
+            <span class="comment">% Fixed current end (left)</span>
+            <span class="keyword">if</span> i == 1
+                G(N, N) = 1;
+                F(N) = Vo;
+            <span class="comment">% Right boundary</span>
+            <span class="keyword">elseif</span> i == L
+                G(N, N) = 1;
+            <span class="comment">% Lower boundary</span>
+            <span class="keyword">elseif</span> j == 1
+                <span class="comment">% Lower boundary in high resistive area</span>
+                <span class="keyword">if</span> i &gt; Lb1*L &amp;&amp; i &lt; Lb2*L
+                    G(N, N) = -3;
+                    G(N, Nyp) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                <span class="comment">% Lower boundary in low resistive area</span>
+                <span class="keyword">else</span>
+                    G(N, N) = -3;
+                    G(N, Nyp) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                <span class="keyword">end</span>
+            <span class="comment">% Upper Boundary</span>
+            <span class="keyword">elseif</span> j == W
+                <span class="comment">% Upper boundary in high resistive area</span>
+                <span class="keyword">if</span> i &gt; Lb1*L &amp;&amp; i &lt; Lb2*L
+                    G(N, N) = -3;
+                    G(N, Nym) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                <span class="comment">% Upper boundary in low resistive area</span>
+                <span class="keyword">else</span>
+                    G(N, N) = -3;
+                    G(N, Nym) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                <span class="keyword">end</span>
+            <span class="comment">% Inner area</span>
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> i &gt; Lb1*L &amp;&amp; i &lt; Lb2*L &amp;&amp; (j &lt; Wb1*W||j &gt; Wb2*W)
+                    <span class="comment">% High resistive area</span>
+                    G(N, N) = -4;
+                    G(N, Nyp) = sigma2;
+                    G(N, Nym) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                <span class="keyword">else</span>
+                    <span class="comment">% Low resistive area</span>
+                    G(N, N) = -4;
+                    G(N, Nyp) = sigma1;
+                    G(N, Nym) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Solve and reformat</span>
+    G = sparse(G);
+    F = sparse(F);
+    Vsol = G\F';
+    <span class="comment">% Reformat</span>
+    V = zeros(W,L);
+    <span class="keyword">for</span> j = 1:W
+        <span class="keyword">for</span> i = 1:L
+            n = j + (i - 1) * W;
+            V(j, i) = Vsol(n);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Electric fields</span>
+    [Ex, Ey] = gradient(V);
+    Ex = -Ex;
+    Ey = -Ey;
+
+    <span class="comment">% Current Densities</span>
+    Jx = S.*Ex;
+    Jy = S.*Ey;
+    J = sqrt(Jx.^2 + Jy.^2);
+<span class="keyword">end</span>
+</pre><h2 id="12">Part Two Conclusion</h2><p>The results from part 2a match what I was expecting from the simulation. Using the relative sensitivity plot as a baseline, the voltage is constant until the bottle neck where there is some leakage through the middle. This is also seen in the electric field vector plot as well as the current density where it behaves according to the Maxwell relationship. The current increases as the mesh size increases. This value should converge as the system should get more realisistic with the smaller squares. As the gap increased the current increased indicating the overall resistance decreased. As the barrier conductivity increased the current. Overall I believe my simulation has some bugs but overall conveys a realisitic simulation for the requirements. increased. This is due to the overall decrease in resistance.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ELEC 4700 Assignment 2
+%% Nathan Lavoy 
+%% 100995612
+%% Submitted: Feb. 22, 2019
+
+%% Part One: Electrostatic Potential with Vo Fixed at Each End
+
+% Simulation parameters
+clear; clc;
+L = 30;    % Length
+W = 20;      % Width
+Vo = 5;     % Fixed potential source
+
+% using GV = F as the matrix solution
+G = zeros(L*W);
+F = zeros(1,L*W);
+for i = 1:L
+    for j = 1:W
+        N = j + (i-1)*W;
+        Nxm = j + (i-2)*W;
+        Nxp = j + i*W;
+        Nym = j-1 + (i-1)*W;
+        Nyp = j+1 + (i-1)*W;
+        if i == 1 
+            G(N,N) = 1;
+            F(N)=Vo; 
+        elseif i == L
+            G(N,N) = 1;
+            F(N) = Vo;
+        elseif j == 1
+            G(N,N) = 1;
+        elseif j == W
+            G(N,N) = 1;
+        else
+            G(N,N)=-4;
+            G(N,Nxm)=1;
+            G(N,Nxp)=1;
+            G(N,Nym)=1;
+            G(N,Nyp)=1;
+        end
+    end
+end
+% Convert to sparse after allocating locations to improve efficiency 
+G = sparse(G);
+F = sparse(F);
+Vsol = G\F';
+
+% Reformat
+Vmap = zeros(W,L);
+for j = 1:W
+    for i = 1:L
+        n = j + (i - 1) * W;
+        Vmap(j, i) = Vsol(n);
+    end
+end
+
+figure(2)
+surf(Vmap)
+title(' Voltage Map for Numerical Solution')
+view(10,45)
+
+%%
+% Numeric solution to laplace equation
+V = zeros(L,W);
+V(L,:) = Vo;
+V(1,:) = Vo;
+[X,Y] = meshgrid(1:W,1:L);  % Mesh grid for plotting
+for x= (-L/2+1):L/2
+    for y=1:W
+        if (x == (-L/2+1) || x == (L/2))
+            V(x+L/2,y) = Vo;
+        elseif (y == 1 || y == W)
+            V(x+L/2,y) = 0;
+        else
+            for N=1:2:251
+                V(x+L/2,y) = V(x+L/2,y) + 4*Vo/pi*1/N*cosh(N*pi*x/W)/cosh(N*pi*0.5*L/W)*sin(N*pi*y/W);
+            end
+        end
+    end
+end
+
+figure(2)
+title('part1(b)');
+surf(X,Y,V);
+xlabel('X');
+ylabel('Y');
+%% Part One Conclusion
+% The solution found in the meshing method is very similar to the solution
+% developed in the analytical analysis. The problem with the analytic
+% solution is that it requires a infinite sumation. I set n to 250 steps to
+% get a clear value. This method slower than the meshing method (due to
+% Matlab's sparse techniques) but can reproduce a more accurate result.
+%% Part Two A: Current Flow
+% Simulation parameters
+clear; clc;
+L = 30;                     % Length
+W = 20;                     % Width
+[X,Y] = meshgrid(1:L,1:W);  % Mesh grid for plotting
+Vo = 5;                     % Fixed potential source
+G = zeros(L*W,L*W);         % G matrix
+F = zeros(L*W,1);           % F matrix
+sigma1 = 1;                 % Sigma value 1    
+sigma2 = 1e-2;              % Sigma value 2
+
+% Solve Simulation
+[S,V,J] = solveG(L,W,0.4,0.6,0.4,0.6,sigma1,sigma2,Vo);
+
+% plot for sigma
+figure(3)
+surf(S);
+title('Resistive Surface Plot');
+
+% plot for voltage
+figure(4);
+surf(X,Y,V);
+title('Surface Plot for Voltage');
+
+% Electric fields plots
+[Ex, Ey] = gradient(V);
+Ex = -Ex;
+Ey = -Ey;
+
+figure(5);
+surf(Ex);
+title('Surface Plot of X-Component Electric Field');
+
+figure(6);
+surf(Ey);
+title('Surface Plot of Y-Component Electric Field');
+
+figure (7)
+quiver(X,Y,Ex, Ey);
+title('Electric Field Vector Plot');
+
+% Current Densities
+Jx = S.*Ex;
+Jy = S.*Ey;
+
+figure(8)
+surf(J)
+title('Surface Plot of Current Density');
+
+figure(9)
+quiver(X,Y,Jx, Jy);
+title('Vector Plot of Current Density');
+%% Part Two B: Mesh Density
+% Simulation parameters
+clear; clc;
+Vo = 5;         % Fixed potential source
+sigma1 = 1;     % Sigma value 1    
+sigma2 = 1e-2;  % Sigma value 2
+n = 1;          % Iteration
+% Solve system using increasing mesh sizes
+for i=20:10:100
+    [S,V,J] = solveG((3/2)*i,i,0.4,0.6,0.4,0.6,sigma1,sigma2,Vo);
+    C_columns = sum(J, 1);               
+    C(n) = sum(C_columns);  % Current at size
+    ms(n) = i;              % Mesh Size
+    n = n+1;                % Iterate
+end
+% Plot total current vs mesh size    
+figure(10)
+plot(ms,C);
+title('Current vs. Mesh Size');
+%% Part Two C: Narrowing Bottle Neck
+% Simulation parameters
+clear; clc;
+L = 30;                     % Length
+W = 20;                     % Width
+Vo = 5;                     % Fixed potential source
+sigma1 = 1;                 % Sigma value 1    
+sigma2 = 1e-2;              % Sigma value 2
+n = 1;      
+for i=0.1:0.01:0.9
+    Lower = 0.5-(i/2);
+    Upper = 0.5+(i/2);
+    [S,V,J] = solveG(L,W,0.4,0.6,Lower,Upper,sigma1,sigma2,Vo);
+    C_columns = sum(J, 1);  % sum of current density is current               
+    C(n) = sum(C_columns);  % need to get a scalar
+    Gap(n) = i;
+    n = n+1;
+end
+    
+figure(11)
+plot(Gap,C);
+title('Current vs. Bottle Neck')
+%% Part Two D: Resistivity in Bottle Neck
+% Simulation parameters
+clear; clc;
+L = 30;                     % Length
+W = 20;                     % Width
+Vo = 5;                     % Fixed potential source
+sigma1 = 1;                 % Sigma value 1    
+sigma2 = 1e-2;              % Sigma value 2
+n = 1;      
+for i=sigma2:0.01:1
+    [S,V,J] = solveG(L,W,0.4,0.6,0.4,0.6,sigma1,i,Vo);
+    C_columns = sum(J, 1);  % sum of current density is current               
+    C(n) = sum(C_columns);  % need to get a scalar
+    rs(n) = i;
+    n = n+1;
+end
+figure(12)
+plot(rs,C);
+title('Current vs. sigma')
+%% Additional Functions Used
+function [S,V,J] = solveG(L,W,Lb1,Lb2,Wb1,Wb2,sigma1,sigma2,Vo)
+    G = zeros(L*W); % G matrix
+    F = zeros(1,L*W);   % F matrix
+    S = zeros(W,L);    % Mapped sigmas
+    % Fill a 2D array for the sigma surface plot
+    for x = 1:L
+        for y = 1:W
+            if x >= Lb1*L && x <= Lb2*L && (y <= Wb1*W || y >= Wb2*W)
+                S(y,x) = sigma2;
+            else
+                S(y,x) = sigma1;
+            end
+        end
+    end
+    for i = 1:L
+        for j = 1:W
+            N = j + (i-1)*W;
+            Nxm = j + (i-2)*W;
+            Nxp = j + i*W;
+            Nym = j-1+(i-1)*W;
+            Nyp = j+1+(i-1)*W;
+            % Fixed current end (left) 
+            if i == 1
+                G(N, N) = 1;
+                F(N) = Vo;
+            % Right boundary
+            elseif i == L
+                G(N, N) = 1;
+            % Lower boundary
+            elseif j == 1  
+                % Lower boundary in high resistive area
+                if i > Lb1*L && i < Lb2*L 
+                    G(N, N) = -3;
+                    G(N, Nyp) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                % Lower boundary in low resistive area
+                else
+                    G(N, N) = -3;
+                    G(N, Nyp) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                end
+            % Upper Boundary    
+            elseif j == W
+                % Upper boundary in high resistive area
+                if i > Lb1*L && i < Lb2*L 
+                    G(N, N) = -3;
+                    G(N, Nym) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                % Upper boundary in low resistive area
+                else
+                    G(N, N) = -3;
+                    G(N, Nym) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                end
+            % Inner area    
+            else
+                if i > Lb1*L && i < Lb2*L && (j < Wb1*W||j > Wb2*W)
+                    % High resistive area
+                    G(N, N) = -4;
+                    G(N, Nyp) = sigma2;
+                    G(N, Nym) = sigma2;
+                    G(N, Nxp) = sigma2;
+                    G(N, Nxm) = sigma2;
+                else
+                    % Low resistive area
+                    G(N, N) = -4;
+                    G(N, Nyp) = sigma1;
+                    G(N, Nym) = sigma1;
+                    G(N, Nxp) = sigma1;
+                    G(N, Nxm) = sigma1;
+                end
+            end
+        end
+    end
+    
+    % Solve and reformat 
+    G = sparse(G);
+    F = sparse(F);
+    Vsol = G\F';
+    % Reformat
+    V = zeros(W,L);
+    for j = 1:W
+        for i = 1:L
+            n = j + (i - 1) * W;
+            V(j, i) = Vsol(n);
+        end
+    end
+    
+    % Electric fields 
+    [Ex, Ey] = gradient(V);
+    Ex = -Ex;
+    Ey = -Ey;
+    
+    % Current Densities
+    Jx = S.*Ex;
+    Jy = S.*Ey;
+    J = sqrt(Jx.^2 + Jy.^2);
+end
+%% Part Two Conclusion
+% The results from part 2a match what I was expecting from the simulation.
+% Using the relative sensitivity plot as a baseline, the voltage is
+% constant until the bottle neck where there is some leakage through the
+% middle. This is also seen in the electric field vector plot as well as 
+% the current density where it behaves according to the Maxwell 
+% relationship. The current increases as the mesh size increases. This
+% value should converge as the system should get more realisistic with the
+% smaller squares. As the gap increased the current increased indicating 
+% the overall resistance decreased. As the barrier conductivity increased 
+% the current. Overall I believe my simulation has some bugs but overall
+% conveys a realisitic simulation for the requirements. 
+% increased. This is due to the overall decrease in resistance. 
+##### SOURCE END #####
+--></body></html>
